@@ -31,6 +31,15 @@ export class HomeComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) {
     this.isMobile = window.innerWidth <= 768;
     this.leftImageUrl = this.isMobile ? '/anagores.jpg' : '/anago.jpg';
+    
+    // Auto-collapse navbar after 3 seconds on mobile
+    if (this.isMobile) {
+      this.isNavbarCollapsed = false;
+      setTimeout(() => {
+        this.isNavbarCollapsed = true;
+      }, 3000);
+    }
+    
     this.preloadImages();
   }
 
