@@ -1,0 +1,446 @@
+<div class="hero-container">
+
+    <header class="navbar">
+        <div class="hamburger-icon" (click)="toggleNavbar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="navbar-center" [class.collapsed]="isNavbarCollapsed">
+            <div class="logo-container">
+                <button class="logo-btn" [class.active]="restaurantName === 'ANAGO'" (click)="setRestaurant('ANAGO')">ANAGO</button>
+                <span class="logo-divider">|</span>
+                <button class="logo-btn" [class.active]="restaurantName === 'OTORO'" (click)="setRestaurant('OTORO')">OTORO</button>
+            </div>
+            <nav>
+                <a href="#" class="nav-link" (click)="goHome(); $event.preventDefault()">INICIO</a>
+                <a href="#" class="nav-link" (click)="goMenu(); $event.preventDefault()">MENU</a>
+                <a href="#" class="nav-link" (click)="openLocation(); $event.preventDefault()">UBICACIÓN</a>
+            </nav>
+        </div>
+
+        <div class="navbar-right" [class.collapsed]="isNavbarCollapsed">
+            <span class="social-icon" *ngIf="restaurantName === 'ANAGO'">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg">
+            </span>
+            <span class="social-icon">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg">
+            </span>
+        </div>
+    </header>
+
+    <section class="hero-content">
+        <div class="left-image">
+            <img [src]="leftImageUrl" [style.opacity]="imageOpacity" alt="food">
+            
+            <!-- Menu Overlay -->
+            <div class="menu-overlay" #menuOverlay *ngIf="showMenuPopup" [class.closing]="menuClosing" (click)="closeMenuPopup()" (scroll)="onMenuScroll($event)">
+                
+                <div class="menu-items" *ngIf="selectedCategory === 'entradas' && !isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Edamame</span>
+                            <span class="item-price">$4.500</span>
+                        </div>
+                        <p class="item-description">Vaina de soja salteadas.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Gyozas al vapor</span>
+                            <span class="item-price">$5.800</span>
+                        </div>
+                        <p class="item-description">Empanadas al vapor.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Gyozas furai</span>
+                            <span class="item-price">$6.500</span>
+                        </div>
+                        <p class="item-description">Empanadas fritas en Panko.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Takoyaki</span>
+                            <span class="item-price">$6.500</span>
+                        </div>
+                        <p class="item-description">Bolitas rellenas de pulpo, cebollín, bañadas en salsa tonkatsu, <br> mayonesa y katsuobushi.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Kara-age</span>
+                            <span class="item-price">$6.700</span>
+                        </div>
+                        <p class="item-description">Pollo frito acompañado de mayonesa y limón.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(5)">
+                        <div class="item-header">
+                            <span class="item-name">Katsu sando</span>
+                            <span class="item-price">$5.100</span>
+                        </div>
+                        <p class="item-description">Sándwich de cerdo frito y salsa coleslaw en pan de miga.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(6)">
+                        <div class="item-header">
+                            <span class="item-name">Yaki tori</span>
+                            <span class="item-price">$6.200</span>
+                        </div>
+                        <p class="item-description">Brochetas de pollo agridulces.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(7)">
+                        <div class="item-header">
+                            <span class="item-name">Tori yaki</span>
+                            <span class="item-price">$7.500</span>
+                        </div>
+                        <p class="item-description">Pollo frito picante y aderezado al estilo coreano.</p>
+                    </div>
+                </div>
+
+                <div class="menu-items" *ngIf="selectedCategory === 'fondo' && !isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Shioyaki</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Pescado con sal y sake acompañado de limón, sunomono y arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Yaki udon</span>
+                            <span class="item-price">$12.000</span>
+                        </div>
+                        <p class="item-description">Fideo udon salteado con mix de verduras, pollo, calamar y camarón.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Curry kara-age</span>
+                            <span class="item-price">$11.500</span>
+                        </div>
+                        <p class="item-description">Curry japonés con pollo frito y arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Katsukare udon</span>
+                            <span class="item-price">$13.500</span>
+                        </div>
+                        <p class="item-description">Fideo Udon con curry japonés, cerdo frito.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Katsukare</span>
+                            <span class="item-price">$12.000</span>
+                        </div>
+                        <p class="item-description">Curry japonés con arroz y cerdo frito.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(5)">
+                        <div class="item-header">
+                            <span class="item-name">Katsudon</span>
+                            <span class="item-price">$11.000</span>
+                        </div>
+                        <p class="item-description">Tortilla de cerdo frito, huevo y arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(6)">
+                        <div class="item-header">
+                            <span class="item-name">Katsudon Tradicional (Premium)</span>
+                            <span class="item-price">$16.000</span>
+                        </div>
+                        <p class="item-description">Lomo de cerdo apanado bañado en salsa metsujo sobre omelette de <br> huevo y arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(7)">
+                        <div class="item-header">
+                            <span class="item-name">Torikatsu</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Pollo apanado con arroz, salsa tonkatsu y repollo.</p>
+                    </div>
+                </div>
+
+                <div class="menu-items" *ngIf="selectedCategory === 'ramen' && !isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Miso Ramen</span>
+                            <span class="item-price">$9.500</span>
+                        </div>
+                        <p class="item-description">Caldo de pollo con miso, ajitama, chachu, wakame, cebollín <br> y aceite de sésamo.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Sapporo Ramen</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Caldo de pollo con miso, ajitama, chachu, wakame y cebollín.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Spicy kara-age Ramen</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Caldo de pollo con miso picante, ajitama, wakame, kara-age, <br> cebollín, aceite de sésamo y salsa teriyaki.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Tantan Ramen</span>
+                            <span class="item-price">$11.000</span>
+                        </div>
+                        <p class="item-description">Caldo de cerdo con miso, ajitama, carne de chile, maní, <br> wakame y cebollín, aceite de sésamo y aceite de chile.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Shirunashi tantanmen</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Fideos picantes sin caldo acompañados de huevo marinado, <br> carne y ramen.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(5)">
+                        <div class="item-header">
+                            <span class="item-name">Tonkotsu Ramen</span>
+                            <span class="item-price">$12.000</span>
+                        </div>
+                        <p class="item-description">Caldo de cerdo, ajitama, chachu, bambú, cebollín y sésamo tostado.</p>
+                    </div>
+                </div>
+
+                <!-- VEGGIE MENU -->
+                <div class="menu-items" *ngIf="selectedCategory === 'entradas' && isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Takoyaki</span>
+                            <span class="item-price">$7.000</span>
+                        </div>
+                        <p class="item-description">Bolitas rellenas de bambú bañadas en salsa tonkatsu, <br> mayonesa vegana y katsuobushi.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Tofu karaage</span>
+                            <span class="item-price">$7.500</span>
+                        </div>
+                        <p class="item-description">Tofu aderezado con ajo y jengibre frito en chuño acompañado de <br> mayonesa vegana y limón.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Katsu sando</span>
+                            <span class="item-price">$6.800</span>
+                        </div>
+                        <p class="item-description">Sando vegetariano con salsa coleslaw en pan de miga.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Toriyaki</span>
+                            <span class="item-price">$8.000</span>
+                        </div>
+                        <p class="item-description">Tofu frito y bañado en salsa Goshujang con frambuesa y maní.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Agedashi tofu</span>
+                            <span class="item-price">$5.000</span>
+                        </div>
+                        <p class="item-description">Tofu frito en salsa Metsuyo, cebollín, katsuobushi.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(5)">
+                        <div class="item-header">
+                            <span class="item-name">Onigiri</span>
+                            <span class="item-price">$3.100</span>
+                        </div>
+                        <p class="item-description"></p>
+                    </div>
+                </div>
+
+                <div class="menu-items" *ngIf="selectedCategory === 'fondo' && isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Yaki udon</span>
+                            <span class="item-price">$13.000</span>
+                        </div>
+                        <p class="item-description">Fideos udon salteado con mix de verduras, tofu sellado, <br> salsa yaki y katsuobushi.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Curry karaage</span>
+                            <span class="item-price">$12.500</span>
+                        </div>
+                        <p class="item-description">Guiso de curry con vegetales, tofu frito al estilo karaage <br> acompañado de arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Dofu kare</span>
+                            <span class="item-price">$12.000</span>
+                        </div>
+                        <p class="item-description">Guiso de curry con tofu y vegetales acompañado de arroz.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Okonomiyaki</span>
+                            <span class="item-price">$10.200</span>
+                        </div>
+                        <p class="item-description">Tortilla de repollo con cebolla, wakame, bambú, cebollín y choclo. <br> Batido tempura bañado en salsa tonkatsu y mayonesa japonesa.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Torikatsu</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Apanado vegetariano en salsa tonkatsu con arroz, <br> cebollín y semillas de sésamo.</p>
+                    </div>
+                </div>
+
+                <div class="menu-items" *ngIf="selectedCategory === 'ramen' && isVeggie" (click)="$event.stopPropagation()">
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
+                        <div class="item-header">
+                            <span class="item-name">Miso</span>
+                            <span class="item-price">$10.000</span>
+                        </div>
+                        <p class="item-description">Caldo base de poroto de soya con topping de ajitama <br> (huevo marinado), tofu frito y marinado, cebollín y wakame.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(1)">
+                        <div class="item-header">
+                            <span class="item-name">Shoyu</span>
+                            <span class="item-price">$9.500</span>
+                        </div>
+                        <p class="item-description">Caldo base de soya y mirin con topping de ajitama <br> (huevo marinado), tofu frito y marinado, wakame y cebollín.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(2)">
+                        <div class="item-header">
+                            <span class="item-name">Spicy karaage miso</span>
+                            <span class="item-price">$10.500</span>
+                        </div>
+                        <p class="item-description">Caldo de poroto de soya picante con topping de wakame, <br> ajitama (huevo marinado), karaage tofu, cebollín y sésamo tostado.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(3)">
+                        <div class="item-header">
+                            <span class="item-name">Sapporo</span>
+                            <span class="item-price">$10.800</span>
+                        </div>
+                        <p class="item-description">Caldo miso con topping de ajitama (huevo marinado), tofu marinado, <br> wakame, choclo, cebollín y bambú, aceite de sésamo.</p>
+                    </div>
+
+                    <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(4)">
+                        <div class="item-header">
+                            <span class="item-name">Tantan</span>
+                            <span class="item-price">$12.000</span>
+                        </div>
+                        <p class="item-description">Caldo de alga y pasta de maní con topping de ajitama <br> (huevo marinado), tofu marinado, maní japonés tostado, bambú, <br> cebollín y wakame.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation buttons for menu -->
+            <nav class="horizontal-navbar" *ngIf="showHorizontalNav && showLeftNavs && restaurantName === 'ANAGO'">
+                <button class="horizontal-btn" [class.menu-active]="showMenuPopup" (click)="setVeggie(false)">TRADICIONAL</button>
+                <span class="divider" [class.menu-active]="showMenuPopup">|</span>
+                <button class="horizontal-btn veggie-btn" [class.menu-active]="showMenuPopup" (click)="setVeggie(true)">VEGGIE</button>
+            </nav>
+
+            <nav class="vertical-navbar" *ngIf="showLeftNavs">
+                <button class="vertical-text left-vertical" [ngClass]="{'veggie-mode': isVeggie, 'menu-active': showMenuPopup}" (click)="openMenuCategory('entradas')">ENTRADAS</button>
+                <button class="vertical-text left-vertical" [ngClass]="{'veggie-mode': isVeggie, 'menu-active': showMenuPopup}" (click)="openMenuCategory('fondo')">FONDO</button>
+                <button class="vertical-text left-vertical" [ngClass]="{'veggie-mode': isVeggie, 'menu-active': showMenuPopup}" (click)="openMenuCategory('ramen')">RAMEN</button>
+            </nav>
+        </div>
+
+        <div class="hero-image">
+            <img src="https://images.pexels.com/photos/1907228/pexels-photo-1907228.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                alt="ramen">
+            
+            <div class="center-info">
+                <div class="grand-opening">
+                    <span class="title">APERTURA ANAGO IZAKAYA<br> PASEO HACIENDA, TALCA</span>
+                    <span class="date">DICIEMBRE 2025</span>
+                </div>
+            </div>
+
+            <div class="vertical-text right-vertical">
+                {{ kanjiText }}
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Popup -->
+    <div class="location-popup" *ngIf="showLocationPopup" (click)="closeLocation()" [class.closing]="isClosing">
+        <div class="popup-content" (click)="$event.stopPropagation()" [class.closing]="isClosing">
+            <h2>NUESTRA UBICACIÓN</h2>
+            
+            <div class="location-buttons">
+                <button 
+                    class="location-btn" 
+                    [class.active]="selectedLocation === 'sanjavier'"
+                    (click)="selectLocation('sanjavier')">
+                    SAN JAVIER
+                </button>
+                <button 
+                    class="location-btn" 
+                    [class.active]="selectedLocation === 'talca'"
+                    (click)="selectLocation('talca')">
+                    TALCA
+                </button>
+            </div>
+
+            <p class="address" *ngIf="selectedLocation === 'sanjavier' && !isLoadingMap">
+                ANAGO IZAKAYA & OTORO<br>
+                Miraflores #1368, San Javier
+            </p>
+            <p class="address" *ngIf="selectedLocation === 'talca' && !isLoadingMap">
+                ANAGO IZAKAYA<br>
+                Paseo Hacienda, Av. Pehuenche Norte #1143, Talca
+            </p>
+
+            <div class="loading-spinner" *ngIf="isLoadingMap">
+                <div class="spinner"></div>
+            </div>
+            
+            <div class="map-container" *ngIf="selectedLocation === 'sanjavier' && !isLoadingMap">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3244.356579300493!2d-71.73619172421611!3d-35.59426977261545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9665e9001e4f8b65%3A0xaf8f6e4e5946743c!2sAnago%20Izakaya!5e0!3m2!1ses-419!2scl!4v1763875258863!5m2!1ses-419!2scl" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div class="map-container" *ngIf="selectedLocation === 'talca' && !isLoadingMap">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3250.4850417932153!2d-71.60470690547733!3d-35.44278453180764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9665c1002fb5e747%3A0x53e8f5ea0dba039d!2sPaseo%20Hacienda!5e0!3m2!1ses-419!2scl!4v1763875530289!5m2!1ses-419!2scl" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+</div>
