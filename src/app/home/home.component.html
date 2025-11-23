@@ -22,10 +22,11 @@
 
         <div class="navbar-right" [class.collapsed]="isNavbarCollapsed">
             <span class="social-icon" *ngIf="restaurantName === 'ANAGO'">
-                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg">
+                <a href="https://www.facebook.com/profile.php?id=61559130270738" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg"></a>
             </span>
             <span class="social-icon">
-                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg">
+                <a href="https://www.instagram.com/anagoizakaya" target="_blank" *ngIf="restaurantName === 'ANAGO'"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"></a>
+                <a href="https://www.instagram.com/otorobyanago/" target="_blank" *ngIf="restaurantName === 'OTORO'"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"></a>
             </span>
         </div>
     </header>
