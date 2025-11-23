@@ -221,7 +221,7 @@
                 </div>
 
                 <!-- VEGGIE MENU -->
-                <div class="menu-items" *ngIf="selectedCategory === 'entradas' && isVeggie" (click)="$event.stopPropagation()">
+                <div class="menu-items veggie-menu" *ngIf="selectedCategory === 'entradas' && isVeggie" (click)="$event.stopPropagation()">
                     <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
                         <div class="item-header">
                             <span class="item-name">Takoyaki</span>
@@ -271,7 +271,7 @@
                     </div>
                 </div>
 
-                <div class="menu-items" *ngIf="selectedCategory === 'fondo' && isVeggie" (click)="$event.stopPropagation()">
+                <div class="menu-items veggie-menu" *ngIf="selectedCategory === 'fondo' && isVeggie" (click)="$event.stopPropagation()">
                     <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
                         <div class="item-header">
                             <span class="item-name">Yaki udon</span>
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                <div class="menu-items" *ngIf="selectedCategory === 'ramen' && isVeggie" (click)="$event.stopPropagation()">
+                <div class="menu-items veggie-menu" *ngIf="selectedCategory === 'ramen' && isVeggie" (click)="$event.stopPropagation()">
                     <div class="menu-item" [class.fade-on-scroll]="shouldFadeItem(0)">
                         <div class="item-header">
                             <span class="item-name">Miso</span>
