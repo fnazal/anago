@@ -1,10 +1,10 @@
-import { NgFor } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
+import { MenuDinamicoComponent } from "../menu-dinamico/menu-dinamico.component";
 
 @Component({
   selector: 'app-home',
-  imports: [NgClass, NgIf],
+  imports: [NgClass, NgIf, MenuDinamicoComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   isLoadingMap: boolean = false;
   imageOpacity: number = 1;
   showMenuPopup: boolean = false;
-  selectedCategory: string = '';
+  selectedCategory: 'entradas' | 'fondo' | 'ramen' = 'entradas'; //Por defecto entradas, ya que obligatoriamente debe estar en uno de los 3 casos
   menuClosing: boolean = false;
   isNavbarCollapsed: boolean = true;
   fadingItemIndices: Set<number> = new Set();
@@ -237,7 +237,7 @@ export class HomeComponent implements OnInit {
     if (this.showMenuPopup && this.selectedCategory === category) {
       return;
     }
-    this.selectedCategory = category;
+    this.selectedCategory = category as 'entradas' | 'fondo' | 'ramen';
     this.showMenuPopup = true;
     this.fadingItemIndices.clear();
   }

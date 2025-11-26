@@ -1,0 +1,20 @@
+<div class="menu-items" (click)="$event.stopPropagation()">
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando menú...</p>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div class="menu-item"
+         *ngFor="let item of filteredItems; let i = index"
+         [class.fade-on-scroll]="shouldFadeItem(i)">
+      <div class="item-header">
+        <span class="item-name">{{ item.nombre }}</span>
+        <span class="item-price">${{ item.precio | number:'1.0-0':'es-CL' }}</span>
+      </div>
+      <p class="item-description" [innerHTML]="item.descripcion"></p>
+    </div>
+  </ng-container>
+
+</div>

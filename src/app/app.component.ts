@@ -1,6 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import localeCl from '@angular/common/locales/es-CL';
 
 @Component({
   selector: 'app-root',
@@ -13,3 +14,5 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   readonly title = 'Anago Izakaya';
 }
+
+registerLocaleData(localeCl);
