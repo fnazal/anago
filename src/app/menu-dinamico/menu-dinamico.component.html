@@ -1,4 +1,4 @@
-<div class="menu-items" (click)="$event.stopPropagation()">
+<div class="menu-items" [class.veggie-menu]="isVeggie" (click)="$event.stopPropagation()">
 
   <div class="spinner-container" *ngIf="loading">
     <div class="spinner"></div>
